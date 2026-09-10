@@ -1,4 +1,5 @@
 import type { FireDeviceType } from './device'
+import { resolveIconStyle, setupIconContext } from '@/lib/device/iconUtils'
 
 export type FireIconState = 'normal' | 'hover' | 'selected' | 'disabled'
 
@@ -124,31 +125,14 @@ export function drawFireIcon(
 ) {
   const { type, state = 'normal', iconScale, viewportScale, rotationDeg, drawDirection = true } = opts
   const colors = getFireColor(type)
-  const isSelected = state === 'selected'
-  const isHover = state === 'hover'
-  const isDisabled = state === 'disabled'
 
   const size = 18 * iconScale
-  const lineWidth = Math.max(1, 1.5 / viewportScale)
-
+  
   ctx.save()
 
-  // Resplandor en selección o hover
-  if (isSelected) {
-    ctx.shadowColor = colors.glow
-    ctx.shadowBlur = 10 / viewportScale
-  } else if (isHover) {
-    ctx.shadowColor = 'rgba(15, 23, 42, 0.25)'
-    ctx.shadowBlur = 6 / viewportScale
-  }
-
-  // Selección de color según estado
-  const mainColor = isDisabled ? '#94a3b8' : colors.primary
-  const strokeColor = isDisabled ? '#64748b' : isSelected ? '#1e40af' : colors.stroke
-
-  ctx.fillStyle = mainColor
-  ctx.strokeStyle = strokeColor
-  ctx.lineWidth = isSelected ? lineWidth * 1.5 : lineWidth
+  // Usar utilidades comunes para resolver estilos
+  const style = resolveIconStyle(colors, { state, viewportScale, size })
+  setupIconContext(ctx, style.mainColor, style.strokeColor, style.lineWidth)
 
   switch (type) {
     case 'panel': {
@@ -565,7 +549,7 @@ export function drawFireIcon(
   }
 
   // Anillo de selección
-  if (isSelected) {
+  if (style.isSelected) {
     ctx.strokeStyle = colors.primary
     ctx.lineWidth = 2 / viewportScale
     ctx.setLineDash([3 / viewportScale, 3 / viewportScale])
@@ -577,8 +561,8 @@ export function drawFireIcon(
 
   // Indicador de orientación (Línea de dirección)
   if (drawDirection !== false) {
-    const dirAngle = (rotationDeg ?? 0) * (Math.PI / 180)
-    ctx.strokeStyle = strokeColor
+    const dirAngle = rotationDeg * (Math.PI / 180)
+    ctx.strokeStyle = style.strokeColor
     ctx.lineWidth = Math.max(1, 2 / viewportScale)
     ctx.beginPath()
     ctx.moveTo(0, 0)

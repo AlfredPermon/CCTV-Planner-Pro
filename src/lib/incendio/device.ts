@@ -1,4 +1,5 @@
 import type { CatalogModel } from '@/lib/catalog/types'
+import { normalizeString } from '@/lib/device/utils'
 
 export type FireDeviceType =
   | 'panel'
@@ -17,13 +18,22 @@ export type FireDeviceType =
 
 export type FireIconKey = string
 
+/**
+ * Normaliza el texto de búsqueda para inferencia de dispositivos
+ */
+function normalizeHaystack(model: Pick<CatalogModel, 'marca' | 'modelo' | 'codigo' | 'descripcion' | 'notas'>): string {
+  return normalizeString(
+    `${model.marca} ${model.modelo} ${model.codigo} ${model.descripcion ?? ''} ${model.notas ?? ''}`
+      .toUpperCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+  )
+}
+
 export function inferFireDeviceType(
   model: Pick<CatalogModel, 'marca' | 'modelo' | 'codigo' | 'descripcion' | 'notas'>
 ): FireDeviceType {
-  const haystack = `${model.marca} ${model.modelo} ${model.codigo} ${model.descripcion ?? ''} ${model.notas ?? ''}`
-    .toUpperCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+  const haystack = normalizeHaystack(model)
 
   // 1. Fuentes de poder / Supresores / Baterías
   if (

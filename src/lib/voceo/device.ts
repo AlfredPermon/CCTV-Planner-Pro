@@ -1,4 +1,5 @@
 import type { CatalogModel } from '@/lib/catalog/types'
+import { normalizeString } from '@/lib/device/utils'
 
 export type VoceoDeviceType =
   | 'speaker_ceiling'
@@ -15,13 +16,22 @@ export type VoceoDeviceType =
 
 export type VoceoIconKey = string
 
+/**
+ * Normaliza el texto de búsqueda para inferencia de dispositivos
+ */
+function normalizeHaystack(model: Pick<CatalogModel, 'marca' | 'modelo' | 'codigo' | 'descripcion' | 'notas'>): string {
+  return normalizeString(
+    `${model.marca} ${model.modelo} ${model.codigo} ${model.descripcion ?? ''} ${model.notas ?? ''}`
+      .toUpperCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+  )
+}
+
 export function inferVoceoDeviceType(
   model: Pick<CatalogModel, 'marca' | 'modelo' | 'codigo' | 'descripcion' | 'notas'>
 ): VoceoDeviceType {
-  const haystack = `${model.marca} ${model.modelo} ${model.codigo} ${model.descripcion ?? ''} ${model.notas ?? ''}`
-    .toUpperCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+  const haystack = normalizeHaystack(model)
 
   // 1. Gateways / Módulos IP / Placas PCB / Módulos de audio OEM
   if (

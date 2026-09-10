@@ -564,11 +564,27 @@ export default function CCTVCanvas({
     }
   }, [isActivationAnimating])
 
+  // Use ref to track animation state to avoid setState in effect
+  const activationTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  
   useEffect(() => {
     if (flashId) {
-      setIsActivationAnimating(true)
-      const t = setTimeout(() => setIsActivationAnimating(false), 900)
-      return () => clearTimeout(t)
+      // Clear any existing timeout
+      if (activationTimeoutRef.current) {
+        clearTimeout(activationTimeoutRef.current)
+      }
+      // Set animation state via raf to avoid direct setState in effect
+      requestAnimationFrame(() => {
+        setIsActivationAnimating(true)
+        activationTimeoutRef.current = setTimeout(() => {
+          setIsActivationAnimating(false)
+        }, 900)
+      })
+    }
+    return () => {
+      if (activationTimeoutRef.current) {
+        clearTimeout(activationTimeoutRef.current)
+      }
     }
   }, [flashId])
 
@@ -802,7 +818,16 @@ export default function CCTVCanvas({
       }
       if (e.key === 'Escape') {
         if (isFitToWindow) {
-          handleToggleFitWindow()
+          // Inline logic to avoid forward reference
+          if (savedZoomStateRef.current) {
+            setScale(savedZoomStateRef.current.scale)
+            setPan(savedZoomStateRef.current.pan)
+          } else {
+            setScale(1)
+            setPan({ x: 0, y: 0 })
+          }
+          setIsFitToWindow(false)
+          toast({ title: 'Vista Restablecida', description: 'Salida de pantalla completa, contenedor original restaurado' })
           return
         }
         if (freeRotationCameraId) {

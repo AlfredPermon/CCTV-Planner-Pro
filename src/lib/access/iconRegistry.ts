@@ -1,4 +1,5 @@
 import type { AccessDeviceType } from '@/lib/access/device'
+import { resolveIconStyle, setupIconContext, drawRoundedRect, drawConcentricArcs } from '@/lib/device/iconUtils'
 
 export type AccessIconState = 'normal' | 'hover' | 'selected' | 'disabled'
 
@@ -153,30 +154,13 @@ export function drawAccessIcon(
   const key = resolveAccessIconKeyForDevice({ iconKey: opts.iconKey, type: opts.type })
   const colors = getAccessColor(key)
 
-  const isSelected = state === 'selected'
-  const isHover = state === 'hover'
-  const isDisabled = state === 'disabled'
-
   const size = 18 * iconScale
-  const lineWidth = Math.max(1, 1.5 / viewportScale)
-
+  
   ctx.save()
 
-  // Sombra y resplandor en selección o hover
-  if (isSelected) {
-    ctx.shadowColor = colors.glow
-    ctx.shadowBlur = 10 / viewportScale
-  } else if (isHover) {
-    ctx.shadowColor = 'rgba(15, 23, 42, 0.25)'
-    ctx.shadowBlur = 6 / viewportScale
-  }
-
-  const mainColor = isDisabled ? '#94a3b8' : colors.primary
-  const strokeColor = isDisabled ? '#64748b' : isSelected ? '#1e40af' : colors.stroke
-
-  ctx.fillStyle = mainColor
-  ctx.strokeStyle = strokeColor
-  ctx.lineWidth = isSelected ? lineWidth * 1.5 : lineWidth
+  // Usar utilidades comunes para resolver estilos
+  const style = resolveIconStyle(colors, { state, viewportScale, size })
+  setupIconContext(ctx, style.mainColor, style.strokeColor, style.lineWidth)
 
   switch (key) {
     case 'terminal_face': {
@@ -545,7 +529,7 @@ export function drawAccessIcon(
   }
 
   // Anillo de selección
-  if (isSelected) {
+  if (style.isSelected) {
     ctx.strokeStyle = colors.primary
     ctx.lineWidth = 2 / viewportScale
     ctx.setLineDash([3 / viewportScale, 3 / viewportScale])
@@ -557,8 +541,8 @@ export function drawAccessIcon(
 
   // Indicador de orientación (línea de dirección)
   if (drawDirection !== false) {
-    const dirAngle = (rotationDeg ?? 0) * (Math.PI / 180)
-    ctx.strokeStyle = strokeColor
+    const dirAngle = rotationDeg * (Math.PI / 180)
+    ctx.strokeStyle = style.strokeColor
     ctx.lineWidth = Math.max(1, 2 / viewportScale)
     ctx.beginPath()
     ctx.moveTo(0, 0)
