@@ -1,5 +1,6 @@
 import type { CatalogModel } from '@/lib/catalog/types'
 import type { AccessIconKey } from '@/lib/access/iconRegistry'
+import { resolveFontSize, resolveFontColor, isFiniteNumber, normalizeString } from '@/lib/device/utils'
 
 export type AccessDeviceType = 'terminal' | 'lock' | 'exit_button' | 'emergency_button'
 
@@ -16,13 +17,8 @@ export const DEFAULT_ACCESS_LABEL_BG_COLOR = 'rgba(255, 255, 255, 0.94)'
 export const DEFAULT_ACCESS_LABEL_BORDER_COLOR = 'rgba(15, 23, 42, 0.18)'
 export const DEFAULT_ACCESS_LABEL_OUTLINE_COLOR = 'rgba(255, 255, 255, 0.98)'
 
-function isFiniteNumber(value: unknown): value is number {
-  return typeof value === 'number' && Number.isFinite(value)
-}
-
 export function resolveAccessLabelFontSize(fontSize?: number) {
-  if (!isFiniteNumber(fontSize)) return DEFAULT_ACCESS_LABEL_FONT_SIZE
-  return Math.max(DEFAULT_ACCESS_LABEL_MIN_FONT_SIZE, fontSize)
+  return resolveFontSize(fontSize, DEFAULT_ACCESS_LABEL_FONT_SIZE, DEFAULT_ACCESS_LABEL_MIN_FONT_SIZE)
 }
 
 export function resolveAccessLabelFontFamily(fontFamily?: string) {
@@ -32,9 +28,19 @@ export function resolveAccessLabelFontFamily(fontFamily?: string) {
 }
 
 export function resolveAccessLabelFontColor(fontColor?: string) {
-  return typeof fontColor === 'string' && fontColor.trim().length > 0
-    ? fontColor
-    : DEFAULT_ACCESS_LABEL_FONT_COLOR
+  return resolveFontColor(fontColor, DEFAULT_ACCESS_LABEL_FONT_COLOR)
+}
+
+/**
+ * Normaliza el texto de búsqueda para inferencia de dispositivos de acceso
+ */
+function normalizeHaystack(model: Pick<CatalogModel, 'marca' | 'modelo' | 'codigo' | 'descripcion' | 'notas'>): string {
+  return normalizeString(
+    `${model.marca} ${model.modelo} ${model.codigo} ${model.descripcion ?? ''} ${model.notas ?? ''}`
+      .toUpperCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+  )
 }
 
 export function estimateAccessLabelWidth(text: string | undefined, fontSize: number) {
@@ -94,10 +100,7 @@ export function getAccessCanvasLabelLayout(opts: {
 }
 
 export function inferAccessDeviceType(model: Pick<CatalogModel, 'marca' | 'modelo' | 'codigo' | 'descripcion' | 'notas'>): AccessDeviceType {
-  const haystack = `${model.marca} ${model.modelo} ${model.codigo} ${model.descripcion ?? ''} ${model.notas ?? ''}`
-    .toUpperCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+  const haystack = normalizeHaystack(model)
 
   if (
     haystack.includes('EMERGEN') ||
@@ -138,10 +141,7 @@ export function inferAccessIconKey(
   resolvedType?: AccessDeviceType
 ): AccessIconKey {
   const type = resolvedType ?? inferAccessDeviceType(model)
-  const mod = `${model.marca} ${model.modelo} ${model.codigo} ${model.descripcion ?? ''} ${model.notas ?? ''}`
-    .toUpperCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+  const mod = normalizeHaystack(model)
 
   if (mod.includes('AEGIS') || mod.includes('TORNIQUETE') || mod.includes('TRIPODE') || mod.includes('BARRERA PEATONAL')) {
     return 'turnstile'

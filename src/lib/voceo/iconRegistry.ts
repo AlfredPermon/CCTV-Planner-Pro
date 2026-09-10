@@ -1,4 +1,5 @@
 import type { VoceoDeviceType } from './device'
+import { resolveIconStyle, setupIconContext } from '@/lib/device/iconUtils'
 
 export type VoceoIconState = 'normal' | 'hover' | 'selected' | 'disabled'
 
@@ -104,31 +105,14 @@ export function drawVoceoIcon(
 ) {
   const { type, state = 'normal', iconScale, viewportScale, rotationDeg, drawDirection = true } = opts
   const colors = getVoceoColor(type)
-  const isSelected = state === 'selected'
-  const isHover = state === 'hover'
-  const isDisabled = state === 'disabled'
 
   const size = 18 * iconScale
-  const lineWidth = Math.max(1, 1.5 / viewportScale)
-
+  
   ctx.save()
 
-  // Sombra / resplandor en selección o hover
-  if (isSelected) {
-    ctx.shadowColor = colors.glow
-    ctx.shadowBlur = 10 / viewportScale
-  } else if (isHover) {
-    ctx.shadowColor = 'rgba(15, 23, 42, 0.2)'
-    ctx.shadowBlur = 6 / viewportScale
-  }
-
-  // Selección de color según estado
-  const mainColor = isDisabled ? '#94a3b8' : isSelected ? colors.primary : colors.primary
-  const strokeColor = isDisabled ? '#64748b' : isSelected ? '#1e40af' : colors.stroke
-
-  ctx.fillStyle = mainColor
-  ctx.strokeStyle = strokeColor
-  ctx.lineWidth = isSelected ? lineWidth * 1.5 : lineWidth
+  // Usar utilidades comunes para resolver estilos
+  const style = resolveIconStyle(colors, { state, viewportScale, size })
+  setupIconContext(ctx, style.mainColor, style.strokeColor, style.lineWidth)
 
   // --- Dibujar la geometría según la categoría del dispositivo ---
   switch (type) {
@@ -347,7 +331,7 @@ export function drawVoceoIcon(
   }
 
   // Anillo de selección si está seleccionado
-  if (isSelected) {
+  if (style.isSelected) {
     ctx.strokeStyle = colors.primary
     ctx.lineWidth = 2 / viewportScale
     ctx.setLineDash([3 / viewportScale, 3 / viewportScale])
@@ -359,8 +343,8 @@ export function drawVoceoIcon(
 
   // Indicador de rotación/orientación (Línea de dirección)
   if (drawDirection !== false) {
-    const dirAngle = (rotationDeg ?? 0) * (Math.PI / 180)
-    ctx.strokeStyle = strokeColor
+    const dirAngle = rotationDeg * (Math.PI / 180)
+    ctx.strokeStyle = style.strokeColor
     ctx.lineWidth = Math.max(1, 2 / viewportScale)
     ctx.beginPath()
     ctx.moveTo(0, 0)
