@@ -15,11 +15,20 @@ datasource db {
 
 model User {
   id        String   @id @default(cuid())
+  name      String
   email     String   @unique
-  name      String?
+  password  String
+  role      Role     @default(VIEWER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
 
 model Post {
   id        String   @id @default(cuid())
@@ -29,4 +38,71 @@ model Post {
   authorId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model cat_componentes {
+  codigo_componente String  @id
+  descripcion       String
+  unidad_medida     String
+  categoria         String
+  sistema           String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  cotizaciones cotizaciones_historico[]
+
+  @@index([sistema, categoria])
+  @@index([codigo_componente, sistema])
+}
+
+model cotizaciones_historico {
+  id_cotizacion     String   @id @default(cuid())
+  codigo_componente String
+  costo_unitario    Decimal
+  fecha_actualizacion DateTime @default(now())
+  proveedor         String
+  vigente           Boolean  @default(true)
+
+  componente cat_componentes @relation(fields: [codigo_componente], references: [codigo_componente], onDelete: Cascade)
+
+  @@index([codigo_componente, proveedor, vigente])
+  @@index([fecha_actualizacion])
+}
+
+model proyectos_calculos {
+  id_proyecto   String   @id @default(cuid())
+  nombre_proyecto String
+  fecha_creacion DateTime @default(now())
+  usuario       String
+  total_calculado Decimal
+
+  detalles detalle_calculos[]
+}
+
+model detalle_calculos {
+  id_detalle    String   @id @default(cuid())
+  id_proyecto   String
+  item          Int
+  componente    String
+  descripcion   String
+  unidad_medida String
+  cantidad      Decimal
+  costo_unitario Decimal
+  costo_total    Decimal
+  sistema        String
+
+  proyecto proyectos_calculos @relation(fields: [id_proyecto], references: [id_proyecto], onDelete: Cascade)
+
+  @@index([id_proyecto, sistema])
+}
+
+model audit_log {
+  id          String   @id @default(cuid())
+  module      String
+  action      String
+  user        String
+  status      String
+  payload     Json
+  createdAt   DateTime @default(now())
+  @@index([module, action, createdAt])
 }

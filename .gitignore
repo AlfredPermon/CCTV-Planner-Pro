@@ -19,6 +19,7 @@ node_modules
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -30,7 +31,7 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files
 .env*
 
 # vercel
@@ -39,11 +40,64 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local files
 local-*
 .claude
 .z-ai-config
 dev.log
 test
 prompt
-
 server.log
+
+# ----------------------------------------
+# Local IDE / editor settings
+# ----------------------------------------
+.vscode/
+.idea/
+.trae/
+
+# ----------------------------------------
+# Local databases
+# ----------------------------------------
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+db/*.db
+prisma/*.db
+
+# ----------------------------------------
+# Local Excel / working files
+# ----------------------------------------
+*.xlsx
+*.xls
+*.xlsm
+
+# ----------------------------------------
+# Local photos / internal assets
+# OJO: comenta estas líneas si SÍ quieres subir esas imágenes al repositorio
+# ----------------------------------------
+FOTOS_SISTEMAS/
+public/FOTOS_SISTEMAS/
+
+# ----------------------------------------
+# Temporary files
+# ----------------------------------------
+tmp/
+temp/
+*.tmp
+*.bak
+
+# ----------------------------------------
+# Logs
+# ----------------------------------------
+logs/
+*.log
+
+# ----------------------------------------
+# OS generated files
+# ----------------------------------------
+Thumbs.db
+Desktop.ini
+

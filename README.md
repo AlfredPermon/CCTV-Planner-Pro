@@ -81,6 +81,26 @@ bun start
 
 Open [http://localhost:3000](http://localhost:3000) to see your application running.
 
+## 📦 Distribución verificable
+
+Para generar un paquete instalable con base de datos, activos estáticos, manifiesto y validación de integridad:
+
+```bash
+npm run dist:build
+```
+
+Comandos relacionados:
+
+```bash
+# Validar el paquete generado
+npm run dist:validate
+
+# Iniciar el paquete empaquetado
+npm run dist:start
+```
+
+La guía operativa completa de instalación, verificación y recuperación vive en `download/README.md`.
+
 ## 🤖 Powered by Z.ai
 
 This scaffold is optimized for use with [Z.ai](https://chat.z.ai) - your AI assistant for:

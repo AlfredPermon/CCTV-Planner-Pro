@@ -1,4 +1,4 @@
-import type { Camera, FloorPlan } from '@/app/page'
+import type { Camera, FloorPlan } from '@/lib/cctv/types'
 
 export function degToRad(deg: number) {
   return (deg * Math.PI) / 180

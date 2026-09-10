@@ -1,5 +1,6 @@
 @import "tailwindcss";
-@import "tw-animate-css";
+@plugin "tailwindcss-animate";
+
 
 @custom-variant dark (&:is(.dark *));
 
@@ -45,20 +46,20 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: var(--color_fondo, oklch(1 0 0));
+  --foreground: var(--color_texto_principal, oklch(0.145 0 0));
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: var(--color_texto_principal, oklch(0.145 0 0));
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --popover-foreground: var(--color_texto_principal, oklch(0.145 0 0));
+  --primary: var(--color_primario, oklch(0.205 0 0));
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --secondary: var(--color_secundario_1, oklch(0.97 0 0));
+  --secondary-foreground: var(--color_texto_principal, oklch(0.205 0 0));
+  --muted: var(--color_secundario_2, oklch(0.97 0 0));
+  --muted-foreground: var(--color_texto_secundario, oklch(0.556 0 0));
+  --accent: var(--color_secundario_2, oklch(0.97 0 0));
+  --accent-foreground: var(--color_texto_principal, oklch(0.205 0 0));
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);

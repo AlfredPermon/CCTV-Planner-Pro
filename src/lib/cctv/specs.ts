@@ -1,4 +1,4 @@
-import type { Camera, FloorPlan } from '@/app/page'
+import type { Camera, FloorPlan } from '@/lib/cctv/types'
 
 export function generateSpecsMarkdown(
   cameras: Camera[],

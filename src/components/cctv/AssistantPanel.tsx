@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Badge } from '@/components/ui/badge'
 import { Send, Bot } from 'lucide-react'
-import type { Camera, FloorPlan } from '@/app/page'
+import type { Camera, FloorPlan } from '@/lib/cctv/types'
 
 interface Message { id: string; role: 'user' | 'assistant'; content: string; timestamp: Date }
 interface AssistantPanelProps { cameras: Camera[]; floorPlan: FloorPlan | null }
