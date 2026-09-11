@@ -1,0 +1,3 @@
+{
+  "/api/ollama/health/route": "app/api/ollama/health/route.js"
+}
