@@ -1,0 +1,3 @@
+{
+  "/api/quotes/upload/route": "app/api/quotes/upload/route.js"
+}

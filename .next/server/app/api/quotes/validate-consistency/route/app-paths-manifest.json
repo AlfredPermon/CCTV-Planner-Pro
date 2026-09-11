@@ -1,0 +1,3 @@
+{
+  "/api/quotes/validate-consistency/route": "app/api/quotes/validate-consistency/route.js"
+}

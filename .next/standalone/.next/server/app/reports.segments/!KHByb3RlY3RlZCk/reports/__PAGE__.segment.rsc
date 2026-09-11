@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[91060,["/_next/static/chunks/fc5006284b0a8f69.js","/_next/static/chunks/bdcd31b401957ee9.js","/_next/static/chunks/72e57d038be2990e.js","/_next/static/chunks/f3e909b5234be492.js","/_next/static/chunks/cdf35ffb6cab6244.js","/_next/static/chunks/07638ff385c64b84.js","/_next/static/chunks/b10c271d6a42a49f.js","/_next/static/chunks/1b74fad397eaf75c.js","/_next/static/chunks/acd5c287788e1bcc.js","/_next/static/chunks/7f0058fe8674b919.js","/_next/static/chunks/bcd765b5d44cbfe0.js"],"MultiSystemReportDashboard"]
+3:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/84b37d40edc7c78b.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"dVMLWl_Ea3O0cyl8YbORi","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"w-full min-h-screen","children":["$","$L2",null,{}]}],[["$","script","script-0",{"src":"/_next/static/chunks/1b74fad397eaf75c.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/acd5c287788e1bcc.js","async":true}],["$","script","script-2",{"src":"/_next/static/chunks/7f0058fe8674b919.js","async":true}],["$","script","script-3",{"src":"/_next/static/chunks/bcd765b5d44cbfe0.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
+5:null
