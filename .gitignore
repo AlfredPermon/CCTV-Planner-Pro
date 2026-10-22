@@ -1,4 +1,6 @@
-```gitignore
+/.next/
+
+
 # Compiled and build artifacts
 *.pyc
 __pycache__/
@@ -40,3 +42,11 @@ htmlcov/
 .DS_Store
 Thumbs.db
 ```
+# Archivos generados y dependencias
+.next/
+node_modules/
+
+/db/custom.db
+/db/custom.db-*
+/prisma/dev.db
+/prisma/dev.db-*

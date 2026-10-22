@@ -1,0 +1,6 @@
+- [x] Al cambiar de Cámaras → Parquímetro → Cámaras, las cámaras permanecen visibles
+- [x] Al cambiar de cualquier vista a Combinada, se visualizan todos los sistemas
+- [x] No se borran dispositivos de ningún sistema al cambiar vistas
+- [x] Parquímetro valida superposición solo con parquímetros y respeta límites del lienzo
+- [x] Mensajes de estado correctos al entrar a Parquímetro y al seleccionar modelo
+- [x] Sin errores de compilación ni diagnósticos nuevos

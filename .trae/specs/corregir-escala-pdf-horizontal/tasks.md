@@ -1,0 +1,32 @@
+# Tasks
+- [x] Task 1: Auditar módulo de exportación PDF y flujo de orientación
+  - [x] SubTask 1.1: Localizar funciones de transformación de coordenadas y composición de layout
+  - [x] SubTask 1.2: Documentar puntos de entrada y dependencias del exportador
+- [x] Task 2: Implementar cálculo de scale-to-fit uniforme
+  - [x] SubTask 2.1: Obtener tamaño de contenido y tamaño de página en Horizontal
+  - [x] SubTask 2.2: Calcular factor de escala min(pageW/contentW, pageH/contentH) manteniendo aspect ratio
+  - [x] SubTask 2.3: Definir reglas de centrado y límites (bounding box)
+- [x] Task 3: Aplicar transformación de escala en el render del PDF
+  - [x] SubTask 3.1: Insertar transform de escala y traducción para centrar sin recorte
+  - [x] SubTask 3.2: Ajustar márgenes y espaciados proporcionalmente
+- [x] Task 4: Validación por tipo de elemento
+  - [x] SubTask 4.1: Texto: validar fuentes, tamaños, legibilidad y no clipping
+  - [x] SubTask 4.2: Imagen: preservar resolución, evitar pixelación y artefactos
+  - [x] SubTask 4.3: Vector: escalar paths/figuras manteniendo proporciones
+- [x] Task 5: Pruebas automatizadas y de regresión
+  - [x] SubTask 5.1: Unit tests del cálculo de escala y posicionamiento relativo
+  - [x] SubTask 5.2: Tests de layout con plantillas (planos, iconos, etiquetas)
+  - [x] SubTask 5.3: Generar PDFs de prueba a distintas resoluciones y comparar bounding boxes
+- [x] Task 6: Documentación y notas de cambio
+  - [x] SubTask 6.1: Actualizar guía de exportación y orientación
+  - [x] SubTask 6.2: Registrar cambios técnicos en el módulo de exportación
+- [x] Task 7: Reportes visuales antes/después
+  - [x] SubTask 7.1: Capturas comparativas y checklist de validación visual
+
+# Task Dependencies
+- Task 2 depende de Task 1
+- Task 3 depende de Task 2
+- Task 4 depende de Task 3
+- Task 5 depende de Task 4
+- Task 6 depende de Task 5
+- Task 7 depende de Task 5

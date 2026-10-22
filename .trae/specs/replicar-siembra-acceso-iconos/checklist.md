@@ -1,0 +1,13 @@
+- [ ] El Catálogo de Control de Acceso muestra “+ Agregar” por ficha y permite sembrar con leyenda.
+- [ ] El Catálogo de Control de Acceso permite “Agregar sin leyenda” por ficha sin romper el CRUD/importación/subida de imágenes.
+- [ ] Los dispositivos sembrados de acceso incluyen `modelId` y `modelName` (opcionales y retrocompatibles).
+- [ ] `handleAddAccessDevice`/`handleAddAccessDeviceWithoutLegend` reciben y usan `modelId/modelName` correctamente.
+- [ ] `CCTVCanvas` renderiza íconos personalizados de acceso con estados: normal, hover, seleccionado, deshabilitado.
+- [ ] Existe fallback seguro para íconos desconocidos (no rompe render ni interacción).
+- [ ] Propiedades de acceso incluye controles: rotación, mostrar/ocultar nombre, tamaño de fuente y familia de fuente.
+- [ ] Interacciones existentes siguen funcionando: wheel para escala del ícono, Shift+drag para rotación (si aplica), selección/arrastre.
+- [ ] Persistencia retrocompatible: proyectos/seed anteriores cargan sin errores y se siguen renderizando.
+- [ ] Pruebas unitarias Vitest cubren la siembra y el mapeo/registry de íconos.
+- [ ] `npm run build` compila sin errores y `npm test` pasa.
+- [ ] Revisión manual en navegadores/resoluciones: íconos y etiquetas se ven correctos y consistentes.
+

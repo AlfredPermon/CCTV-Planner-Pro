@@ -1,0 +1,8 @@
+- [x] Orientación Horizontal mantiene proporciones (sin deformación)
+- [x] Escalado uniforme (scale-to-fit) aplicado correctamente
+- [x] Resolución de imágenes preservada (sin pixelación)
+- [x] Márgenes y espaciados ajustados proporcionalmente
+- [x] Posiciones relativas de elementos se conservan
+- [x] Validación en diferentes resoluciones de exportación PDF
+- [x] Pruebas unitarias y de regresión pasan
+- [x] Documentación actualizada y reportes visuales antes/después disponibles

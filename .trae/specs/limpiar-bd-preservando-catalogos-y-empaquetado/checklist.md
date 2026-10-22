@@ -1,0 +1,10 @@
+- [x] La limpieza de base de datos preserva íntegramente los componentes de los catálogos de CCTV, Control de Acceso, Parquímetro, Voceo y Detección contra incendios
+- [x] La limpieza elimina solo datos permitidos y no rompe relaciones ni consultas operativas
+- [x] Existen validaciones pre y post limpieza con evidencia de integridad de los catálogos protegidos
+- [x] El proceso de build o empaquetado genera un artefacto instalable con todos los archivos obligatorios
+- [x] La integridad de archivos del paquete se valida antes de darlo por distribuible
+- [x] Existe documentación clara de instalación, validación posterior y recuperación ante fallos
+- [x] La instalación del paquete funciona en el entorno objetivo definido
+- [x] Las pruebas funcionales confirman acceso y consulta correcta de los catálogos preservados
+- [x] Las funcionalidades core afectadas operan sin regresiones tras la limpieza e instalación
+- [x] Todas las incidencias detectadas durante pruebas quedan resueltas y revalidadas antes del cierre

@@ -1,0 +1,32 @@
+# Tasks
+- [x] Task 1: Definir esquema común de modelo y claves de storage
+  - [x] SubTask 1.1: Definir campos mínimos obligatorios (marca, modelo, código)
+  - [x] SubTask 1.2: Establecer claves de localStorage por catálogo (cámaras, acceso, voceo, incendio)
+- [x] Task 2: Capa de acceso a datos (estado + localStorage)
+  - [x] SubTask 2.1: Implementar utilidades de lectura/escritura y validación de duplicados
+  - [x] SubTask 2.2: Sincronizar estado React con cambios y escritura reactiva
+- [x] Task 3: UI de administración por catálogo (listas + alta/edición)
+  - [x] SubTask 3.1: Cámaras: lista y formularios con validación
+  - [x] SubTask 3.2: Acceso: lista y formularios con validación
+  - [x] SubTask 3.3: Voceo: lista y formularios con validación
+  - [x] SubTask 3.4: Incendio: lista y formularios con validación
+- [x] Task 4: Confirmación de eliminación
+  - [x] SubTask 4.1: Integrar AlertDialog en cada catálogo para eliminar
+  - [x] SubTask 4.2: Actualizar la lista al instante tras eliminar
+- [x] Task 5: Notificaciones de éxito y error
+  - [x] SubTask 5.1: Integrar useToast en operaciones CRUD
+  - [x] SubTask 5.2: Mensajes consistentes según guía de estilo
+- [x] Task 6: Integración con vistas existentes
+  - [x] SubTask 6.1: Sustituir arrays mock por la capa de almacenamiento
+  - [x] SubTask 6.2: Verificar que cambios se reflejen sin recargar página
+- [x] Task 7: Validación y pruebas
+  - [x] SubTask 7.1: Probar creación, edición y eliminación con duplicados
+  - [x] SubTask 7.2: Verificar persistencia y carga desde localStorage
+
+# Task Dependencies
+- [Task 2] depende de [Task 1]
+- [Task 3] depende de [Task 2]
+- [Task 4] depende de [Task 3]
+- [Task 5] depende de [Task 3]
+- [Task 6] depende de [Task 2] y [Task 3]
+- [Task 7] depende de [Task 3], [Task 4] y [Task 5]

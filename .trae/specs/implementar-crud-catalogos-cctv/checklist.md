@@ -1,0 +1,10 @@
+- [x] Existe UI de administración para Cámaras con CRUD completo
+- [x] Existe UI de administración para Control de Acceso con CRUD completo
+- [x] Existe UI de administración para Voceo con CRUD completo
+- [x] Existe UI de administración para Incendio con CRUD completo
+- [x] Formularios de alta y edición validan campos obligatorios
+- [x] Se confirma antes de eliminar registros (AlertDialog)
+- [x] Notificaciones de éxito/error aparecen tras cada operación (useToast)
+- [x] Se soportan múltiples modelos por catálogo sin colisiones (código único)
+- [x] Los cambios se reflejan inmediatamente sin recargar la página
+- [x] Persistencia correcta en localStorage y carga inicial al abrir la app

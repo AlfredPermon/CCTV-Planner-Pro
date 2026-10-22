@@ -1,0 +1,9 @@
+- [x] ImportDialog proporciona drag-and-drop y selector de archivo
+- [x] La validación detecta columnas obligatorias y formato Excel
+- [x] Se muestra preview de datos antes de importar
+- [x] Duplicados por Código se detectan y reportan
+- [x] Procesamiento por lotes actualiza barra de progreso
+- [x] Filas inválidas generan un archivo de log descargable
+- [x] Se importan filas válidas sin bloquear por errores
+- [x] La UI se actualiza al instante tras importar
+- [x] Notificaciones de éxito/error y resumen final

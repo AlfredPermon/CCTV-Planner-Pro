@@ -1,0 +1,7 @@
+- [x] La exportacion PDF conserva la ubicacion espacial de todos los dispositivos soportados sobre el plano
+- [x] El plano arquitectonico mantiene su proporcion original en la vista previa y en el PDF final
+- [x] Ningun dispositivo renderizado queda fuera de limites sin advertencia o error visible para el usuario
+- [x] Camaras, acceso, voceo, incendio y parquimetro se muestran con representacion grafica completa y legible
+- [x] La ventana `Exportar a PDF` muestra una previsualizacion fiel al resultado final antes de descargar
+- [x] Las pruebas automatizadas validan coordenadas con tolerancia maxima del 1% para cada tipo de dispositivo
+- [x] El flujo de exportacion mejora la fidelidad visual sin modificar la logica de negocio existente

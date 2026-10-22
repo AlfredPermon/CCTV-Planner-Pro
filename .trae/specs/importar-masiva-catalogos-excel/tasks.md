@@ -1,0 +1,32 @@
+# Tasks
+- [x] Task 1: Dependencia y utilidades de parseo
+  - [x] SubTask 1.1: Añadir dependencia `xlsx`
+  - [x] SubTask 1.2: Implementar utilidades `parseExcel(file)` y validación de columnas
+- [x] Task 2: Módulo de importación (UI común)
+  - [x] SubTask 2.1: Crear componente modal `ImportDialog` con drag-and-drop y progress bar
+  - [x] SubTask 2.2: Implementar preview de datos y reporte de errores
+- [x] Task 3: Procesamiento por lotes y logging
+  - [x] SubTask 3.1: Procesar en chunks y actualizar progreso
+  - [x] SubTask 3.2: Generar archivo de log (CSV/JSON) con filas problemáticas
+- [x] Task 4: Integración por catálogo
+  - [x] SubTask 4.1: Integrar “Importar desde Excel” en Cámaras
+  - [x] SubTask 4.2: Integrar en Control de Acceso
+  - [x] SubTask 4.3: Integrar en Voceo
+  - [x] SubTask 4.4: Integrar en Incendios
+- [x] Task 5: Persistencia y validaciones
+  - [x] SubTask 5.1: Validar duplicados por Código usando storage
+  - [x] SubTask 5.2: Insertar lotes y reflejar cambios en la UI
+- [x] Task 6: Notificaciones y UX
+  - [x] SubTask 6.1: Toasts consistentes de éxito/error y resumen
+  - [x] SubTask 6.2: Mensaje de confirmación visual al completar
+- [x] Task 7: Verificación
+  - [x] SubTask 7.1: Probar archivos con columnas válidas e inválidas
+  - [x] SubTask 7.2: Probar duplicados y logging de errores
+
+# Task Dependencies
+- [Task 2] depende de [Task 1]
+- [Task 3] depende de [Task 1]
+- [Task 4] depende de [Task 2] y [Task 3]
+- [Task 5] depende de [Task 1]
+- [Task 6] depende de [Task 2]
+- [Task 7] depende de [Task 4] y [Task 5]

@@ -1,0 +1,8 @@
+- [x] El bloque `Kit Control de Acceso (Individuales)` refleja correctamente `Acceso 1, 2, 3, 4, 5`
+- [x] La lista `Dispositivos asociados` incluye `BZL600N - 5` en el orden esperado
+- [x] El render visual del kit incluye el quinto dispositivo sin romper la estructura general del PDF
+- [x] La descarga del PDF conserva formato y diseño general con los textos y numeración actualizados
+- [x] Las etiquetas de iconos en la sección Control de Acceso son más legibles y nítidas
+- [x] El contraste de texto/fondo de las etiquetas de acceso es adecuado para lectura clara
+- [x] La mejora visual de etiquetas no rompe la alineación ni el comportamiento responsive
+- [x] Las pruebas automatizadas del kit PDF y de legibilidad de acceso pasan sin regresiones

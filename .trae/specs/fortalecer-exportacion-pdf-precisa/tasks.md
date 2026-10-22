@@ -1,0 +1,31 @@
+# Tasks
+- [x] Task 1: Auditar el pipeline actual de exportacion PDF y previsualizacion
+  - [x] SubTask 1.1: Trazar el flujo desde la ventana `Exportar a PDF` hasta `renderDesignCanvas` y la generacion final del documento
+  - [x] SubTask 1.2: Confirmar el mapeo de colecciones y tipos de dispositivos soportados en el snapshot de exportacion
+  - [x] SubTask 1.3: Identificar diferencias actuales entre la vista previa del dialog y el render real del PDF
+- [x] Task 2: Corregir la fidelidad espacial del render PDF para todos los dispositivos
+  - [x] SubTask 2.1: Unificar la transformacion de coordenadas y escalado para plano y dispositivos
+  - [x] SubTask 2.2: Asegurar que camaras, acceso, voceo, incendio y parquimetro se dibujen completos y en la posicion correcta
+  - [x] SubTask 2.3: Verificar que la exportacion mantenga proporciones y no introduzca clipping ni deformacion
+- [x] Task 3: Reforzar validaciones previas a la exportacion
+  - [x] SubTask 3.1: Validar limites del lienzo y coherencia de escala antes de generar el PDF
+  - [x] SubTask 3.2: Validar que cada tipo de dispositivo tenga representacion grafica renderizable, completa y legible
+  - [x] SubTask 3.3: Exponer advertencias y errores en la ventana `Exportar a PDF` sin alterar la logica de negocio
+- [x] Task 4: Hacer que la previsualizacion sea fiel al resultado exportado
+  - [x] SubTask 4.1: Ajustar la vista previa para reutilizar el mismo criterio de layout y proporcion del PDF final
+  - [x] SubTask 4.2: Reflejar en la previsualizacion los subsistemas seleccionados y los posibles problemas detectados
+  - [x] SubTask 4.3: Mantener la previsualizacion encapsulada en la capa UI/exportacion sin impacto en reglas de negocio
+- [x] Task 5: Ampliar pruebas automatizadas de precision y cobertura
+  - [x] SubTask 5.1: Validar coordenadas exportadas por tipo de dispositivo con tolerancia maxima del 1%
+  - [x] SubTask 5.2: Agregar casos para dispositivos en bordes, escalado uniforme y representacion grafica completa
+  - [x] SubTask 5.3: Confirmar que las validaciones previas distingan correctamente warnings y errores bloqueantes
+- [x] Task 6: Verificar regresion funcional del flujo de exportacion
+  - [x] SubTask 6.1: Probar el dialog con uno y multiples subsistemas seleccionados
+  - [x] SubTask 6.2: Confirmar que la descarga final coincide con la previsualizacion aprobada por el usuario
+
+# Task Dependencies
+- Task 2 depende de Task 1
+- Task 3 depende de Task 1
+- Task 4 depende de Task 2 y Task 3
+- Task 5 depende de Task 2 y Task 3
+- Task 6 depende de Task 4 y Task 5
