@@ -33,6 +33,34 @@ function getOrLoadImage(url: string, onLoaded?: () => void): HTMLImageElement | 
 }
 
 /**
+ * Carga (o recupera de caché) la imagen de una anotación y resuelve la promesa
+ * cuando está lista para ser dibujada. Se usa en la exportación a PDF para
+ * garantizar que las imágenes insertadas se pinten antes de capturar el canvas.
+ */
+export function getOrLoadAnnotationImage(url: string): Promise<HTMLImageElement | null> {
+  if (!url) return Promise.resolve(null)
+  const cached = imageCache.get(url)
+  if (cached && cached.complete && cached.naturalWidth > 0) {
+    return Promise.resolve(cached)
+  }
+  return new Promise(resolve => {
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => {
+      imageCache.set(url, img)
+      resolve(img)
+    }
+    img.onerror = () => {
+      img.crossOrigin = null
+      img.onerror = () => resolve(null)
+      img.src = url
+    }
+    img.src = url
+    imageCache.set(url, img)
+  })
+}
+
+/**
  * Rotación de un punto (px, py) alrededor del centro (cx, cy) un ángulo angleDeg (en grados).
  */
 export function rotatePoint(px: number, py: number, cx: number, cy: number, angleDeg: number): { x: number; y: number } {

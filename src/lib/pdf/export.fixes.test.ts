@@ -23,11 +23,15 @@ type MockCtx = {
   arcCalls: Array<[number, number, number, number, number]>
   fillTextCalls: Array<[string, number, number]>
   drawImageCalls: number
+  strokeCalls: number
+  fillCalls: number
   hasFillStyle: (color: string) => boolean
   save: () => void
   restore: () => void
   translate: (x: number, y: number) => void
+  scale: (x: number, y: number) => void
   rotate: (angle: number) => void
+  rect: (...args: any[]) => void
   fillRect: (x: number, y: number, w: number, h: number) => void
   beginPath: () => void
   closePath: () => void
@@ -68,17 +72,21 @@ function makeMockCtx(): MockCtx {
     arcCalls: [],
     fillTextCalls: [],
     drawImageCalls: 0,
+    strokeCalls: 0,
+    fillCalls: 0,
     hasFillStyle: (color: string) => fillStyles.includes(color),
     save: () => { tx = 0; ty = 0 },
     restore: () => { tx = 0; ty = 0 },
     translate: (x, y) => { tx += x; ty += y },
+    scale: () => undefined,
     rotate: () => undefined,
+    rect: () => undefined,
     fillRect: (x, y, w, h) => { ctx.fillRectCalls.push([x + tx, y + ty, w, h]) },
     beginPath: () => undefined,
     arc: (x, y, r, a0, a1) => { ctx.arcCalls.push([x + tx, y + ty, r, a0, a1]) },
     closePath: () => undefined,
-    fill: () => undefined,
-    stroke: () => undefined,
+    fill: () => { ctx.fillCalls++ },
+    stroke: () => { ctx.strokeCalls++ },
     fillText: (t, x, y) => { ctx.fillTextCalls.push([t, x + tx, y + ty]) },
     strokeText: () => undefined,
     measureText: (t: string) => ({ width: t.length * 6 }),
@@ -117,6 +125,13 @@ function makeMockCanvas(width: number, height: number, imageStub = false): HTMLC
       onload: (() => void) | null = null
       onerror: (() => void) | null = null
       crossOrigin = ''
+      // Permite que las anotaciones tipo imagen pasen el chequeo
+      // `complete && naturalWidth > 0` del caché de imágenes.
+      complete = true
+      naturalWidth = 800
+      naturalHeight = 600
+      width = 800
+      height = 600
       private _src = ''
       get src() { return this._src }
       set src(v: string) {
@@ -431,6 +446,136 @@ describe('renderDesignCanvas – fixes de exportación a PDF', () => {
     const ctx = (canvas as any)._ctx as MockCtx
     const mensaje = ctx.fillTextCalls.find(([t]) => /No hay/.test(t))
     expect(mensaje, 'No debe dibujarse el mensaje vacío si hay plano').toBeUndefined()
+  })
+})
+
+describe('renderDesignCanvas – anotaciones del lienzo (objetos 2D, dibujos e imágenes)', () => {
+  beforeEach(() => {
+    installCanvasStub(true)
+  })
+  afterEach(() => {
+    uninstallCanvasStub()
+  })
+
+  it('dibuja un objeto 2D (Auto Sedan) sembrado en la vista de Cámaras', async () => {
+    const project: ExportProjectData = {
+      ...baseProject(),
+      annotations: [
+        {
+          id: 'obj-sedan',
+          type: 'object',
+          objectCategory: 'vehicles',
+          objectSubtype: 'car_sedan',
+          x: 500,
+          y: 400,
+          width: 90,
+          height: 38,
+          fillColor: '#3b82f6',
+          strokeColor: '#1e293b',
+          fillEnabled: true,
+          view: 'cameras',
+        },
+      ],
+    }
+    const canvas = await renderDesignCanvas(project, 1200, 900, 'cams')
+    const ctx = (canvas as any)._ctx as MockCtx
+    // La carrocería del auto usa el color de relleno configurado.
+    expect(ctx.hasFillStyle('#3b82f6')).toBe(true)
+    // Al existir una anotación visible no debe aparecer el estado vacío.
+    expect(ctx.fillTextCalls.find(([t]) => /No hay/.test(t))).toBeUndefined()
+  })
+
+  it('respeta la vista: una anotación de parking no se pinta al exportar Cámaras', async () => {
+    const project: ExportProjectData = {
+      ...baseProject(),
+      annotations: [
+        {
+          id: 'obj-parking',
+          type: 'object',
+          objectSubtype: 'car_suv',
+          x: 100,
+          y: 100,
+          width: 90,
+          height: 38,
+          fillColor: '#ff00aa',
+          fillEnabled: true,
+          view: 'parking',
+        },
+      ],
+    }
+    const canvas = await renderDesignCanvas(project, 1200, 900, 'cams')
+    const ctx = (canvas as any)._ctx as MockCtx
+    expect(ctx.hasFillStyle('#ff00aa')).toBe(false)
+    // Sin anotaciones visibles en esta vista se mantiene el estado vacío.
+    expect(ctx.fillTextCalls.find(([t]) => /No hay/.test(t))).toBeDefined()
+  })
+
+  it('dibuja dibujo a mano alzada, flechas y formas geométricas', async () => {
+    const project: ExportProjectData = {
+      ...baseProject(),
+      annotations: [
+        {
+          id: 'free-1',
+          type: 'freehand',
+          x: 0,
+          y: 0,
+          points: [{ x: 10, y: 10 }, { x: 60, y: 40 }, { x: 120, y: 20 }],
+          strokeColor: '#ef4444',
+          strokeWidth: 3,
+          view: 'cameras',
+        },
+        {
+          id: 'arrow-1',
+          type: 'arrow',
+          x: 200,
+          y: 200,
+          endX: 300,
+          endY: 260,
+          strokeColor: '#22c55e',
+          strokeWidth: 3,
+          view: 'cameras',
+        },
+        {
+          id: 'rect-1',
+          type: 'rectangle',
+          x: 400,
+          y: 300,
+          width: 120,
+          height: 80,
+          strokeColor: '#2563eb',
+          fillColor: 'rgba(37,99,235,0.2)',
+          fillEnabled: true,
+          view: 'cameras',
+        },
+      ],
+    }
+    const canvas = await renderDesignCanvas(project, 1200, 900, 'cams')
+    const ctx = (canvas as any)._ctx as MockCtx
+    expect(ctx.strokeCalls).toBeGreaterThan(0)
+    expect(ctx.fillCalls).toBeGreaterThan(0)
+    // La punta de la flecha se rellena con su color de trazo.
+    expect(ctx.hasFillStyle('#22c55e')).toBe(true)
+  })
+
+  it('dibuja la imagen insertada (Agregar Imagen) tras precargarla', async () => {
+    const project: ExportProjectData = {
+      ...baseProject(),
+      annotations: [
+        {
+          id: 'img-1',
+          type: 'image',
+          x: 100,
+          y: 100,
+          width: 120,
+          height: 90,
+          imageUrl: 'data:image/png;base64,ANNOTATION_IMAGE_TEST',
+          view: 'cameras',
+        },
+      ],
+    }
+    const canvas = await renderDesignCanvas(project, 1200, 900, 'cams')
+    const ctx = (canvas as any)._ctx as MockCtx
+    expect(ctx.drawImageCalls).toBeGreaterThan(0)
   })
 })
 

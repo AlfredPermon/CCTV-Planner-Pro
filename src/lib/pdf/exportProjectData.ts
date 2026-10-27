@@ -1,4 +1,3 @@
-import type { CanvasAnnotation } from '../cctv/types'
 import type { ExportProjectData } from './export'
 
 export type ExportProjectSnapshot = Pick<
@@ -16,9 +15,8 @@ export type ExportProjectSnapshot = Pick<
   | 'iconScales'
   | 'cameraDescriptions'
   | 'hideFovLines'
-> & {
-  annotations?: CanvasAnnotation[]
-}
+  | 'annotations'
+>
 
 type StorageLike = Pick<Storage, 'getItem'>
 

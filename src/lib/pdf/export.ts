@@ -24,7 +24,8 @@ import {
 import { drawVoceoIcon, getVoceoColor } from '@/lib/voceo/iconRegistry'
 import { drawFireIcon, getFireColor } from '@/lib/incendio/iconRegistry'
 import { drawCameraCoverage, CAMERA_TYPE_COLORS } from '@/lib/cctv/coverageRenderer'
-import type { Camera } from '@/lib/cctv/types'
+import type { Camera, CanvasAnnotation } from '@/lib/cctv/types'
+import { drawAnnotation, getOrLoadAnnotationImage } from '@/lib/cctv/annotations'
 
 export type PdfFormat =
   | 'a4'
@@ -726,6 +727,12 @@ export interface ExportProjectData {
   logoDataUrl?: string
   cameraDescriptions?: Record<string, string>
   hideFovLines?: boolean
+  /**
+   * Anotaciones del lienzo (dibujo a mano alzada, flechas, formas, texto,
+   * objetos/personas 2D e imágenes insertadas). Se renderizan sobre el plano
+   * y los dispositivos en las páginas de diseño del PDF.
+   */
+  annotations?: CanvasAnnotation[]
 }
 
 function formatDate(d: Date) {
@@ -786,6 +793,10 @@ function countDevicesForMode(
   if (mode === 'all' || mode === 'voceo') count += data.voceoDevices?.length ?? 0
   if (mode === 'all' || mode === 'fire') count += data.fireDevices?.length ?? 0
   if (mode === 'all' || mode === 'parking') count += data.parkingDevices?.length ?? 0
+  // Las anotaciones del lienzo (objetos 2D, dibujos, imágenes…) también cuentan
+  // como contenido: si existen, no debe mostrarse el mensaje de estado vacío.
+  const annotationView = modeToAnnotationView(mode)
+  count += (data.annotations ?? []).filter(ann => isAnnotationVisibleForView(ann, annotationView)).length
   return count
 }
 
@@ -844,6 +855,51 @@ function drawEmptyStateOverlay(
   ctx.textBaseline = 'middle'
   ctx.fillText(emptyStateMessageForMode(mode), centerX, centerY)
   ctx.restore()
+}
+
+/**
+ * Traduce el modo de render de exportación a la vista de anotaciones del
+ * lienzo (`CanvasAnnotation.view`). El modo `all` equivale a la vista
+ * combinada, que muestra todas las anotaciones sin filtrar.
+ */
+function modeToAnnotationView(mode: RenderDesignMode): string {
+  switch (mode) {
+    case 'cams':
+      return 'cameras'
+    case 'access':
+    case 'devices':
+      return 'access'
+    case 'voceo':
+      return 'voceo'
+    case 'fire':
+      return 'fire'
+    case 'parking':
+      return 'parking'
+    default:
+      return 'combined'
+  }
+}
+
+/**
+ * Determina si una anotación debe mostrarse en la vista solicitada. Replica la
+ * regla del lienzo vivo: las anotaciones sin `view` son globales y la vista
+ * combinada muestra siempre todo el contenido.
+ */
+function isAnnotationVisibleForView(ann: CanvasAnnotation, view: string): boolean {
+  if (!ann.view) return true
+  if (view === 'combined') return true
+  return ann.view === view
+}
+
+/** Recopila recursivamente los URLs de las imágenes de una anotación (incluye grupos). */
+function collectAnnotationImageUrls(ann: CanvasAnnotation): string[] {
+  if (ann.type === 'image') {
+    return ann.imageUrl ? [ann.imageUrl] : []
+  }
+  if (ann.type === 'group' && ann.children?.length) {
+    return ann.children.flatMap(collectAnnotationImageUrls)
+  }
+  return []
 }
 
 export async function renderDesignCanvas(
@@ -1245,6 +1301,36 @@ export async function renderDesignCanvas(
         ctx.restore()
       })
     }
+
+  // Renderizar las anotaciones del lienzo (dibujo a mano alzada, flechas,
+  // formas geométricas, texto, objetos/personas 2D e imágenes) sobre el plano
+  // y los dispositivos, respetando la vista activa del subsistema exportado.
+  const annotations = data.annotations ?? []
+  if (annotations.length > 0) {
+    const annotationView = modeToAnnotationView(mode)
+    const visibleAnnotations = annotations.filter(ann => isAnnotationVisibleForView(ann, annotationView))
+
+    // Precargar las imágenes insertadas para que se pinten antes de capturar
+    // el canvas. Se aplica un tiempo límite para no bloquear la exportación si
+    // alguna imagen no puede cargarse (CORS/URL inválida).
+    const imageUrls = Array.from(
+      new Set(visibleAnnotations.flatMap(collectAnnotationImageUrls))
+    )
+    if (imageUrls.length > 0) {
+      await Promise.race([
+        Promise.all(imageUrls.map(getOrLoadAnnotationImage)),
+        new Promise<void>(resolve => setTimeout(resolve, 3000))
+      ])
+    }
+
+    ctx.save()
+    ctx.translate(offsetX, offsetY)
+    ctx.scale(s, s)
+    visibleAnnotations.forEach(ann => {
+      drawAnnotation(ctx, ann, false, s)
+    })
+    ctx.restore()
+  }
 
   drawEmptyStateOverlay(ctx, data, getFloorPlanForMode(data, mode), mode, s, offsetX, offsetY, targetW, targetH, baseW, baseH)
   applySharpen(c, 0.4)
