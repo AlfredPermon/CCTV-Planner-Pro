@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { Calculator, Layout, Settings, Shield, LogOut, BarChart3 } from "lucide-react"
+import { Layout, Shield, LogOut, BarChart3 } from "lucide-react"
 import { signOut } from "next-auth/react"
 import { ThemeToggle } from "@/components/theme-toggle"
 
@@ -33,7 +33,7 @@ export default function DashboardPage() {
       </div>
 
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-2">
         {/* Planner Card */}
         <Card className="hover:shadow-lg transition-shadow">
           <CardHeader>
@@ -70,42 +70,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Costs Card */}
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Calculator className="h-6 w-6 text-green-500" />
-              Calculadora de Costos
-            </CardTitle>
-            <CardDescription>
-              Estimación paramétrica y generación de cotizaciones con IA.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link href="/costs" className="w-full">
-              <Button variant="outline" className="w-full">Ir a Costos</Button>
-            </Link>
-          </CardContent>
-        </Card>
-
-        {/* Admin Card */}
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Settings className="h-6 w-6 text-gray-500" />
-              Administración
-            </CardTitle>
-            <CardDescription>
-              Gestión de catálogos, precios y configuración del sistema.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link href="/admin" className="w-full">
-              <Button variant="secondary" className="w-full">Ir a Admin</Button>
-            </Link>
-          </CardContent>
-        </Card>
-      </div>
+        </div>
 
       <div className="mt-8 p-6 bg-muted/20 rounded-lg border">
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">

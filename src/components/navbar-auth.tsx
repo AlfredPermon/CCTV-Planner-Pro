@@ -28,7 +28,7 @@ export function NavbarAuth() {
         .toUpperCase() || "U";
 
     return (
-        <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
             <div className="flex min-h-16 flex-wrap items-center gap-3 px-4 py-3 lg:px-6">
                 <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-6">
                     <Link href="/dashboard" className="flex items-center gap-2 font-bold text-xl">
@@ -42,23 +42,10 @@ export function NavbarAuth() {
                         <Link href="/" className={`transition-colors hover:text-primary ${pathname === '/' ? 'text-primary font-bold' : ''}`}>
                             Planificador
                         </Link>
-                        <Link href="/costs" className={`transition-colors hover:text-primary ${pathname === '/costs' ? 'text-primary font-bold' : ''}`}>
-                            Presupuestos
-                        </Link>
                         <Link href="/reports" className={`flex items-center gap-1.5 transition-colors hover:text-primary ${pathname === '/reports' ? 'text-primary font-bold bg-primary/10 px-2.5 py-1 rounded-md' : ''}`}>
                             <BarChart3 className="h-4 w-4" />
                             <span>Reportes</span>
                         </Link>
-                        {role === "ADMIN" && (
-                            <>
-                                <Link href="/admin" className={`transition-colors hover:text-primary ${pathname === '/admin' ? 'text-primary font-bold' : ''}`}>
-                                    Administración
-                                </Link>
-                                <Link href="/admin/users" className="transition-colors hover:text-primary font-semibold text-primary">
-                                    Usuarios
-                                </Link>
-                            </>
-                        )}
                     </nav>
                 </div>
 
@@ -70,7 +57,7 @@ export function NavbarAuth() {
                 <div className="order-2 ml-auto flex items-center gap-4 lg:order-3">
                     <div className="hidden sm:flex flex-col items-end mr-2">
                         <span className="text-sm font-medium leading-none">{session?.user?.name || "Usuario"}</span>
-                        <span className="text-xs text-muted-foreground mt-1 px-1.5 py-0.5 bg-primary/10 rounded-md font-semibold text-primary">
+                        <span className="text-xs mt-1 px-1.5 py-0.5 bg-primary/10 rounded-md font-semibold text-primary">
                             {role}
                         </span>
                     </div>
