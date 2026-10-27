@@ -7,7 +7,7 @@ import { Tabs, TabsContent } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { Camera, Upload, Eye, HardDrive, Network, FilePlus, Save, FolderOpen, Clock, ChevronDown, ChevronRight, ChevronLeft, X, SlidersHorizontal, FileJson, Trash2, Megaphone, Flame, Car, Layout, ArrowLeftRight, ArrowUpDown, User, UserCheck, Video, ChevronsRight, BadgeCheck, Undo2, Disc } from 'lucide-react'
+import { Camera, Upload, Eye, HardDrive, Network, FilePlus, Save, FolderOpen, Clock, ChevronDown, ChevronRight, ChevronLeft, X, SlidersHorizontal, Trash2, Megaphone, Flame, Car, Layout, ArrowLeftRight, ArrowUpDown, User, UserCheck, Video, ChevronsRight, BadgeCheck, Undo2, Disc } from 'lucide-react'
 import CCTVCanvas from '@/components/cctv/CCTVCanvas'
 import CameraCatalog, { VIVOTEK_CAMERAS } from '@/components/cctv/CameraCatalog'
 import AccessControlCatalog from '@/components/access/AccessControlCatalog'
@@ -1210,112 +1210,6 @@ export default function CCTVPlanningTool() {
     URL.revokeObjectURL(url)
   }
 
-  const saveCamerasSeed = () => {
-    const payload = { floorPlan, cameras, iconScales, savedAt: new Date().toISOString() }
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
-    const a = document.createElement('a')
-    a.href = URL.createObjectURL(blob)
-    a.download = 'camaras.seed.json'
-    a.click()
-  }
-  const saveAccessSeed = () => {
-    const payload = { floorPlan: floorPlanAccess ?? floorPlan, accessDevices, iconScales, savedAt: new Date().toISOString() }
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
-    const a = document.createElement('a')
-    a.href = URL.createObjectURL(blob)
-    a.download = 'acceso.seed.json'
-    a.click()
-  }
-  const saveVoceoSeed = () => {
-    const payload = { floorPlan: floorPlanVoceo ?? floorPlan, voceoDevices, iconScales, savedAt: new Date().toISOString() }
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
-    const a = document.createElement('a')
-    a.href = URL.createObjectURL(blob)
-    a.download = 'voceo.seed.json'
-    a.click()
-  }
-  const saveFireSeed = () => {
-    const payload = { floorPlan: floorPlanFire ?? floorPlan, fireDevices, iconScales, savedAt: new Date().toISOString() }
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
-    const a = document.createElement('a')
-    a.href = URL.createObjectURL(blob)
-    a.download = 'incendio.seed.json'
-    a.click()
-  }
-  const saveParkingSeed = () => {
-    const payload = { floorPlan: floorPlanParking ?? floorPlan, parkingDevices, iconScales, savedAt: new Date().toISOString() }
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
-    const a = document.createElement('a')
-    a.href = URL.createObjectURL(blob)
-    a.download = 'parquimetro.seed.json'
-    a.click()
-  }
-  const openCamerasSeed = (file: File) => {
-    const reader = new FileReader()
-    reader.onload = () => {
-      try {
-        const json = JSON.parse(reader.result as string)
-        if (json.floorPlan) setFloorPlan(json.floorPlan)
-        if (Array.isArray(json.cameras)) setCameras(json.cameras)
-        if (json.iconScales) setIconScales(json.iconScales)
-        setActiveView('cameras')
-      } catch { }
-    }
-    reader.readAsText(file)
-  }
-  const openAccessSeed = (file: File) => {
-    const reader = new FileReader()
-    reader.onload = () => {
-      try {
-        const json = JSON.parse(reader.result as string)
-        if (json.floorPlan) setFloorPlanAccess(json.floorPlan)
-        if (Array.isArray(json.accessDevices)) setAccessDevices(normalizeAccessDevices(json.accessDevices))
-        if (json.iconScales) setIconScales(json.iconScales)
-        setActiveView('access')
-      } catch { }
-    }
-    reader.readAsText(file)
-  }
-  const openVoceoSeed = (file: File) => {
-    const reader = new FileReader()
-    reader.onload = () => {
-      try {
-        const json = JSON.parse(reader.result as string)
-        if (json.floorPlan) setFloorPlanVoceo(json.floorPlan)
-        if (Array.isArray(json.voceoDevices)) setVoceoDevices(json.voceoDevices)
-        if (json.iconScales) setIconScales(json.iconScales)
-        setActiveView('voceo')
-      } catch { }
-    }
-    reader.readAsText(file)
-  }
-  const openFireSeed = (file: File) => {
-    const reader = new FileReader()
-    reader.onload = () => {
-      try {
-        const json = JSON.parse(reader.result as string)
-        if (json.floorPlan) setFloorPlanFire(json.floorPlan)
-        if (Array.isArray(json.fireDevices)) setFireDevices(json.fireDevices)
-        if (json.iconScales) setIconScales(json.iconScales)
-        setActiveView('fire')
-      } catch { }
-    }
-    reader.readAsText(file)
-  }
-  const openParkingSeed = (file: File) => {
-    const reader = new FileReader()
-    reader.onload = () => {
-      try {
-        const json = JSON.parse(reader.result as string)
-        if (json.floorPlan) setFloorPlanParking(json.floorPlan)
-        if (Array.isArray(json.parkingDevices)) setParkingDevices(json.parkingDevices)
-        if (json.iconScales) setIconScales(json.iconScales)
-        setActiveView('parking')
-      } catch { }
-    }
-    reader.readAsText(file)
-  }
-
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden rounded-[28px] border border-border/60 bg-background shadow-[0_24px_70px_-42px_rgba(15,23,42,0.5)]">
       {navbarActionsHost && createPortal(
@@ -1383,37 +1277,6 @@ export default function CCTVPlanningTool() {
               return acc + storagePerDay
             }, 0) / 1024)} GB/día
           </Badge>
-
-          <Separator orientation="vertical" className="h-6 mx-1 hidden lg:block" />
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" title="Sembrados por separado" aria-label="Menú de sembrados">
-                <FileJson className="h-4 w-4 mr-1" />
-                Sembrados
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Guardar</DropdownMenuLabel>
-              <DropdownMenuItem onClick={saveCamerasSeed}>Guardar Cámaras</DropdownMenuItem>
-              <DropdownMenuItem onClick={saveAccessSeed}>Guardar Acceso</DropdownMenuItem>
-              <DropdownMenuItem onClick={saveVoceoSeed}>Guardar Voceo</DropdownMenuItem>
-              <DropdownMenuItem onClick={saveFireSeed}>Guardar Incendio</DropdownMenuItem>
-              <DropdownMenuItem onClick={saveParkingSeed}>Guardar Parquímetro</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel>Abrir</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => document.getElementById('seed-cams-upload')?.click()}>Abrir Cámaras</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => document.getElementById('seed-access-upload')?.click()}>Abrir Acceso</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => document.getElementById('seed-voceo-upload')?.click()}>Abrir Voceo</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => document.getElementById('seed-fire-upload')?.click()}>Abrir Incendio</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => document.getElementById('seed-parking-upload')?.click()}>Abrir Parquímetro</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <input id="seed-cams-upload" type="file" accept=".json" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) openCamerasSeed(f); e.target.value = '' }} />
-          <input id="seed-access-upload" type="file" accept=".json" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) openAccessSeed(f); e.target.value = '' }} />
-          <input id="seed-voceo-upload" type="file" accept=".json" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) openVoceoSeed(f); e.target.value = '' }} />
-          <input id="seed-fire-upload" type="file" accept=".json" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) openFireSeed(f); e.target.value = '' }} />
-          <input id="seed-parking-upload" type="file" accept=".json" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) openParkingSeed(f); e.target.value = '' }} />
         </>,
         navbarActionsHost
       )}
@@ -1504,7 +1367,7 @@ export default function CCTVPlanningTool() {
                       const meta = CATALOG_META[selectedCatalog]
                       const CatalogIcon = meta?.Icon
                       return (
-                        <aside className="h-full w-[320px] xl:w-[360px] shrink-0 border-r border-border/60 bg-card/95 backdrop-blur-md shadow-xl flex flex-col overflow-hidden z-20 animate-in slide-in-from-left duration-200">
+                        <aside className="h-full w-[320px] xl:w-90 shrink-0 border-r border-border/60 bg-card/95 backdrop-blur-md shadow-xl flex flex-col overflow-hidden z-20 animate-in slide-in-from-left duration-200">
                           {/* Header fijo */}
                           <div className="flex items-center justify-between border-b px-3 py-2.5 bg-muted/40 shrink-0">
                             <div className="flex items-center gap-2 min-w-0">
@@ -1996,7 +1859,7 @@ export default function CCTVPlanningTool() {
 
                       {/* Panel de Propiedades acoplado a la derecha */}
                       {propertiesVisible && !propertiesMinimized && (selectedCamera || selectedAccessDevice || selectedVoceoDevice || selectedFireDevice || selectedParkingDevice) && (
-                        <aside className="h-full w-80 lg:w-[350px] shrink-0 border-l border-border/60 bg-card/95 backdrop-blur-md shadow-xl flex flex-col overflow-hidden z-20 animate-in slide-in-from-right duration-200">
+                        <aside className="h-full w-80 lg:w-87.5 shrink-0 border-l border-border/60 bg-card/95 backdrop-blur-md shadow-xl flex flex-col overflow-hidden z-20 animate-in slide-in-from-right duration-200">
                           <PropertiesPanel
                             cameras={cameras}
                             accessDevices={accessDevices}
@@ -3172,7 +3035,7 @@ function PropertiesPanel(props: {
                 <span>Imagen de producto</span>
                 <ChevronsRight className="h-4 w-4 text-slate-400 rotate-90 cursor-pointer hover:text-white" />
               </div>
-              <div className="relative p-3 flex items-center justify-center bg-white rounded-b-md min-h-[160px]">
+              <div className="relative p-3 flex items-center justify-center bg-white rounded-b-md min-h-40">
                 {/* Badge de Información en la esquina superior derecha */}
                 <div className="absolute top-2.5 right-2.5 h-6 w-6 rounded-full bg-sky-500 text-white flex items-center justify-center shadow-md font-bold text-xs cursor-pointer hover:bg-sky-600 transition-colors" title="Especificaciones del modelo VIVOTEK">
                   i
