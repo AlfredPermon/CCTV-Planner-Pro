@@ -29,14 +29,225 @@ import {
   Image as ImageIcon,
   Group,
   Ungroup,
-  Box,
-  Car,
-  User,
-  Armchair,
-  Laptop,
-  Trees
+  Box
 } from 'lucide-react'
 import type { AnnotationType, ObjectCategory, ObjectSubtype } from '@/lib/cctv/types'
+
+/* ==========================================================================
+ * Glifos vectoriales realistas (vista superior) utilizados en el catálogo de
+ * "Objetos y Personas 2D". Reproducen el aspecto de cada objeto tal y como se
+ * dibuja sobre el lienzo, ofreciendo una previsualización profesional.
+ * ========================================================================== */
+type GlyphProps = { className?: string }
+
+const glyphShadow = 'rgba(15, 23, 42, 0.18)'
+const glyphStroke = 'rgba(15, 23, 42, 0.55)'
+
+function CarSedanGlyph({ className }: GlyphProps) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="15" width="38" height="18" rx="8" fill={glyphShadow} />
+      <rect x="10" y="11.5" width="7" height="4" rx="2" fill="#0f172a" />
+      <rect x="10" y="32.5" width="7" height="4" rx="2" fill="#0f172a" />
+      <rect x="31" y="11.5" width="7" height="4" rx="2" fill="#0f172a" />
+      <rect x="31" y="32.5" width="7" height="4" rx="2" fill="#0f172a" />
+      <rect x="4" y="14" width="40" height="20" rx="8" fill="currentColor" stroke={glyphStroke} strokeWidth="1.2" />
+      <rect x="5" y="15" width="38" height="6" rx="5" fill="#ffffff" opacity="0.18" />
+      <rect x="14" y="17" width="19" height="14" rx="5" fill="rgba(15,23,42,0.78)" stroke="#ffffff" strokeOpacity="0.25" strokeWidth="0.8" />
+      <rect x="20" y="19.5" width="8" height="9" rx="3" fill="currentColor" />
+      <rect x="20" y="19.5" width="8" height="9" rx="3" fill="#ffffff" opacity="0.22" />
+      <rect x="41" y="16.5" width="3" height="4" rx="1.2" fill="#fde68a" />
+      <rect x="41" y="27.5" width="3" height="4" rx="1.2" fill="#fde68a" />
+      <rect x="4" y="16.5" width="3" height="4" rx="1.2" fill="#ef4444" />
+      <rect x="4" y="27.5" width="3" height="4" rx="1.2" fill="#ef4444" />
+      <rect x="15" y="11.5" width="4" height="3" rx="1.2" fill={glyphStroke} />
+      <rect x="15" y="33.5" width="4" height="3" rx="1.2" fill={glyphStroke} />
+    </svg>
+  )
+}
+
+function CarSuvGlyph({ className }: GlyphProps) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="15" width="38" height="18" rx="6" fill={glyphShadow} />
+      <rect x="9.5" y="10.5" width="8" height="4.5" rx="2" fill="#0f172a" />
+      <rect x="9.5" y="33" width="8" height="4.5" rx="2" fill="#0f172a" />
+      <rect x="30.5" y="10.5" width="8" height="4.5" rx="2" fill="#0f172a" />
+      <rect x="30.5" y="33" width="8" height="4.5" rx="2" fill="#0f172a" />
+      <rect x="3.5" y="13.5" width="41" height="21" rx="6" fill="currentColor" stroke={glyphStroke} strokeWidth="1.2" />
+      <rect x="4.5" y="14.5" width="39" height="6" rx="5" fill="#ffffff" opacity="0.18" />
+      <rect x="12" y="14.6" width="24" height="1.6" rx="0.8" fill="rgba(15,23,42,0.5)" />
+      <rect x="12" y="31.8" width="24" height="1.6" rx="0.8" fill="rgba(15,23,42,0.5)" />
+      <rect x="12" y="16.5" width="25" height="15" rx="4" fill="rgba(15,23,42,0.78)" stroke="#ffffff" strokeOpacity="0.25" strokeWidth="0.8" />
+      <rect x="19" y="19.5" width="11" height="9" rx="3" fill="currentColor" />
+      <rect x="19" y="19.5" width="11" height="9" rx="3" fill="#ffffff" opacity="0.22" />
+      <rect x="41" y="16" width="3.5" height="4.5" rx="1.3" fill="#fde68a" />
+      <rect x="41" y="27.5" width="3.5" height="4.5" rx="1.3" fill="#fde68a" />
+      <rect x="3.5" y="16" width="3" height="4.5" rx="1.3" fill="#ef4444" />
+      <rect x="3.5" y="27.5" width="3" height="4.5" rx="1.3" fill="#ef4444" />
+      <rect x="13" y="10.5" width="4.5" height="3.2" rx="1.3" fill={glyphStroke} />
+      <rect x="13" y="34.3" width="4.5" height="3.2" rx="1.3" fill={glyphStroke} />
+    </svg>
+  )
+}
+
+function TruckGlyph({ className }: GlyphProps) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="15" width="38" height="18" rx="4" fill={glyphShadow} />
+      <rect x="8.5" y="11" width="8" height="4.5" rx="1.8" fill="#0f172a" />
+      <rect x="8.5" y="32.5" width="8" height="4.5" rx="1.8" fill="#0f172a" />
+      <rect x="31.5" y="11" width="8" height="4.5" rx="1.8" fill="#0f172a" />
+      <rect x="31.5" y="32.5" width="8" height="4.5" rx="1.8" fill="#0f172a" />
+      <rect x="3.5" y="13.5" width="41" height="21" rx="4" fill="currentColor" stroke={glyphStroke} strokeWidth="1.2" />
+      <rect x="4.5" y="14.5" width="39" height="6" rx="4" fill="#ffffff" opacity="0.18" />
+      <rect x="6" y="16.5" width="17" height="15" rx="1.5" fill="rgba(15,23,42,0.18)" stroke="rgba(15,23,42,0.45)" strokeWidth="0.9" />
+      <line x1="10.2" y1="17.5" x2="10.2" y2="30.5" stroke="#ffffff" strokeWidth="0.8" opacity="0.4" />
+      <line x1="14.5" y1="17.5" x2="14.5" y2="30.5" stroke="#ffffff" strokeWidth="0.8" opacity="0.4" />
+      <line x1="18.8" y1="17.5" x2="18.8" y2="30.5" stroke="#ffffff" strokeWidth="0.8" opacity="0.4" />
+      <rect x="25" y="16.5" width="16" height="15" rx="3.5" fill="rgba(15,23,42,0.78)" stroke="#ffffff" strokeOpacity="0.25" strokeWidth="0.8" />
+      <rect x="29.5" y="19.5" width="7.5" height="9" rx="2.5" fill="currentColor" />
+      <rect x="29.5" y="19.5" width="7.5" height="9" rx="2.5" fill="#ffffff" opacity="0.22" />
+      <rect x="41" y="16" width="3.5" height="4.5" rx="1.3" fill="#fde68a" />
+      <rect x="41" y="27.5" width="3.5" height="4.5" rx="1.3" fill="#fde68a" />
+      <rect x="3.5" y="16" width="3" height="4.5" rx="1.3" fill="#ef4444" />
+      <rect x="3.5" y="27.5" width="3" height="4.5" rx="1.3" fill="#ef4444" />
+      <rect x="24" y="11" width="4.5" height="3.2" rx="1.3" fill={glyphStroke} />
+      <rect x="24" y="33.8" width="4.5" height="3.2" rx="1.3" fill={glyphStroke} />
+    </svg>
+  )
+}
+
+function PersonManGlyph({ className }: GlyphProps) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="25" cy="29" rx="10" ry="8" fill={glyphShadow} />
+      <ellipse cx="21" cy="21" rx="3.2" ry="4" fill="currentColor" stroke={glyphStroke} strokeWidth="0.9" transform="rotate(-30 21 21)" />
+      <ellipse cx="21" cy="35" rx="3.2" ry="4" fill="currentColor" stroke={glyphStroke} strokeWidth="0.9" transform="rotate(30 21 35)" />
+      <ellipse cx="24" cy="28" rx="9.5" ry="7.5" fill="currentColor" stroke={glyphStroke} strokeWidth="1" />
+      <ellipse cx="21" cy="26" rx="5.5" ry="4.4" fill="#ffffff" opacity="0.14" />
+      <circle cx="24" cy="18" r="6.2" fill="#1f2937" stroke="rgba(15,23,42,0.6)" strokeWidth="0.9" />
+      <ellipse cx="25.6" cy="18.6" rx="3.4" ry="4.2" fill="#f3c9a1" />
+      <circle cx="22" cy="15.8" r="1.8" fill="#ffffff" opacity="0.18" />
+    </svg>
+  )
+}
+
+function PersonWomanGlyph({ className }: GlyphProps) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="25" cy="29" rx="9" ry="7.5" fill={glyphShadow} />
+      <ellipse cx="21.5" cy="21.5" rx="3" ry="3.8" fill="currentColor" stroke={glyphStroke} strokeWidth="0.9" transform="rotate(-30 21.5 21.5)" />
+      <ellipse cx="21.5" cy="34.5" rx="3" ry="3.8" fill="currentColor" stroke={glyphStroke} strokeWidth="0.9" transform="rotate(30 21.5 34.5)" />
+      <ellipse cx="24" cy="28" rx="8.6" ry="7" fill="currentColor" stroke={glyphStroke} strokeWidth="1" />
+      <ellipse cx="21.2" cy="26" rx="5" ry="4" fill="#ffffff" opacity="0.14" />
+      <ellipse cx="22.6" cy="18" rx="7.4" ry="8.2" fill="#4c1d95" />
+      <circle cx="24" cy="17.6" r="5.8" fill="#4c1d95" stroke="rgba(15,23,42,0.6)" strokeWidth="0.9" />
+      <ellipse cx="25.6" cy="18.4" rx="3.1" ry="3.9" fill="#f3c9a1" />
+      <circle cx="22.4" cy="15.6" r="1.6" fill="#ffffff" opacity="0.16" />
+    </svg>
+  )
+}
+
+function DeskGlyph({ className }: GlyphProps) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="14" width="39" height="21" rx="4" fill={glyphShadow} />
+      <rect x="4" y="13" width="40" height="21" rx="4" fill="currentColor" stroke={glyphStroke} strokeWidth="1.1" />
+      <rect x="5" y="14" width="38" height="6" rx="3.5" fill="#ffffff" opacity="0.2" />
+      <rect x="6" y="15" width="36" height="17" rx="3" fill="none" stroke="#ffffff" strokeOpacity="0.4" strokeWidth="0.8" />
+      <rect x="34" y="15.5" width="7.5" height="16" rx="1.6" fill="rgba(15,23,42,0.22)" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="0.8" />
+      <rect x="36" y="18.5" width="3.4" height="1.2" rx="0.6" fill="#ffffff" opacity="0.75" />
+      <rect x="36" y="22.4" width="3.4" height="1.2" rx="0.6" fill="#ffffff" opacity="0.75" />
+      <rect x="36" y="26.3" width="3.4" height="1.2" rx="0.6" fill="#ffffff" opacity="0.75" />
+    </svg>
+  )
+}
+
+function OfficeChairGlyph({ className }: GlyphProps) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="25.5" cy="25.5" r="12" fill={glyphShadow} />
+      <g stroke={glyphStroke} strokeWidth="1.8">
+        <line x1="24" y1="24" x2="24" y2="11" />
+        <line x1="24" y1="24" x2="36.4" y2="20" />
+        <line x1="24" y1="24" x2="31.6" y2="34.6" />
+        <line x1="24" y1="24" x2="16.4" y2="34.6" />
+        <line x1="24" y1="24" x2="11.6" y2="20" />
+      </g>
+      <g fill="#111827">
+        <circle cx="24" cy="10.6" r="1.7" />
+        <circle cx="37" cy="19.7" r="1.7" />
+        <circle cx="32" cy="35.2" r="1.7" />
+        <circle cx="16" cy="35.2" r="1.7" />
+        <circle cx="11" cy="19.7" r="1.7" />
+      </g>
+      <path d="M 24 33 A 9 9 0 0 1 24 15" fill="none" stroke={glyphStroke} strokeWidth="3.2" strokeLinecap="round" />
+      <circle cx="24" cy="24" r="7" fill="currentColor" stroke={glyphStroke} strokeWidth="1" />
+      <circle cx="24" cy="24" r="7" fill="#ffffff" opacity="0.15" />
+    </svg>
+  )
+}
+
+function ComputerGlyph({ className }: GlyphProps) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="12" width="38" height="24" rx="3" fill="rgba(15,23,42,0.14)" />
+      <rect x="7" y="8" width="34" height="10" rx="2.2" fill="#111827" stroke={glyphStroke} strokeWidth="0.9" />
+      <rect x="9.4" y="10" width="29.2" height="6" rx="1.4" fill="#38bdf8" />
+      <rect x="9.4" y="10" width="29.2" height="2.4" rx="1.2" fill="#7dd3fc" />
+      <rect x="12" y="26" width="22" height="9" rx="2" fill="currentColor" stroke={glyphStroke} strokeWidth="0.9" />
+      <rect x="13.8" y="27.6" width="18.4" height="1.4" rx="0.7" fill="#ffffff" opacity="0.35" />
+      <rect x="13.8" y="30" width="18.4" height="1.4" rx="0.7" fill="#ffffff" opacity="0.35" />
+      <rect x="13.8" y="32.4" width="18.4" height="1.4" rx="0.7" fill="#ffffff" opacity="0.35" />
+      <rect x="36" y="27" width="6" height="8" rx="3" fill="#475569" stroke={glyphStroke} strokeWidth="0.8" />
+    </svg>
+  )
+}
+
+function TreeGlyph({ className }: GlyphProps) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="26" cy="26" r="15" fill={glyphShadow} />
+      <circle cx="24" cy="24" r="16" fill="currentColor" stroke={glyphStroke} strokeWidth="1.1" />
+      <circle cx="24" cy="24" r="11.5" fill="#ffffff" opacity="0.14" />
+      <g fill="#ffffff" opacity="0.16">
+        <circle cx="24" cy="14.5" r="5" />
+        <circle cx="33.5" cy="29.5" r="5" />
+        <circle cx="14.5" cy="29.5" r="5" />
+      </g>
+      <g fill="#000000" opacity="0.12">
+        <circle cx="24" cy="32" r="4.6" />
+        <circle cx="32" cy="18" r="4.6" />
+        <circle cx="16" cy="18" r="4.6" />
+      </g>
+      <circle cx="20.5" cy="20.5" r="4" fill="#ffffff" opacity="0.18" />
+      <circle cx="24" cy="24" r="2.6" fill="#6b3f16" stroke="rgba(15,23,42,0.5)" strokeWidth="0.8" />
+    </svg>
+  )
+}
+
+function PlantGlyph({ className }: GlyphProps) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="25.5" cy="25.5" r="15" fill={glyphShadow} />
+      <circle cx="24" cy="24" r="15" fill="#b45309" stroke={glyphStroke} strokeWidth="1.1" />
+      <circle cx="24" cy="24" r="12.4" fill="none" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="0.9" />
+      <circle cx="24" cy="24" r="11.4" fill="#3f2a15" />
+      <g fill="currentColor">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <ellipse key={i} cx="24" cy="16" rx="3.5" ry="6.4" transform={`rotate(${i * 45} 24 24)`} />
+        ))}
+      </g>
+      <g fill="#000000" opacity="0.18">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <ellipse key={i} cx="24" cy="16" rx="3.5" ry="6.4" transform={`rotate(${i * 90 + 45} 24 24)`} />
+        ))}
+      </g>
+      <circle cx="24" cy="24" r="3.2" fill="#166534" stroke="#ffffff" strokeOpacity="0.4" strokeWidth="0.8" />
+    </svg>
+  )
+}
 
 export type ActiveTool = 'select' | AnnotationType
 
@@ -317,7 +528,7 @@ export function FloatingCanvasToolbar({
                     className="h-7 text-[10px] px-1.5 gap-1 rounded-lg"
                     onClick={() => setSelectedCategory('vehicles')}
                   >
-                    <Car className="h-3 w-3" />
+                    <CarSedanGlyph className="h-4 w-4" />
                     Autos
                   </Button>
                   <Button
@@ -326,7 +537,7 @@ export function FloatingCanvasToolbar({
                     className="h-7 text-[10px] px-1.5 gap-1 rounded-lg"
                     onClick={() => setSelectedCategory('people')}
                   >
-                    <User className="h-3 w-3" />
+                    <PersonManGlyph className="h-4 w-4" />
                     Personas
                   </Button>
                   <Button
@@ -335,7 +546,7 @@ export function FloatingCanvasToolbar({
                     className="h-7 text-[10px] px-1.5 gap-1 rounded-lg"
                     onClick={() => setSelectedCategory('office')}
                   >
-                    <Armchair className="h-3 w-3" />
+                    <OfficeChairGlyph className="h-4 w-4" />
                     Muebles
                   </Button>
                   <Button
@@ -347,7 +558,7 @@ export function FloatingCanvasToolbar({
                       if (objectColor === '#3b82f6') setObjectColor('#10b981')
                     }}
                   >
-                    <Trees className="h-3 w-3 text-emerald-500" />
+                    <TreeGlyph className="h-4 w-4 text-emerald-500" />
                     Verdes
                   </Button>
                 </div>
@@ -387,7 +598,7 @@ export function FloatingCanvasToolbar({
                           setObjectsOpen(false)
                         }}
                       >
-                        <Car className="h-4 w-4 text-blue-500" />
+                        <CarSedanGlyph className="h-5 w-5 text-blue-500" />
                         Auto Sedán (4.5m x 1.9m)
                       </Button>
                       <Button
@@ -399,7 +610,7 @@ export function FloatingCanvasToolbar({
                           setObjectsOpen(false)
                         }}
                       >
-                        <Car className="h-4 w-4 text-emerald-500" />
+                        <CarSuvGlyph className="h-5 w-5 text-emerald-500" />
                         Camioneta SUV (4.8m x 2.0m)
                       </Button>
                       <Button
@@ -411,7 +622,7 @@ export function FloatingCanvasToolbar({
                           setObjectsOpen(false)
                         }}
                       >
-                        <Car className="h-4 w-4 text-amber-500" />
+                        <TruckGlyph className="h-5 w-5 text-amber-500" />
                         Camioneta / Pick-up (5.2m x 2.1m)
                       </Button>
                     </>
@@ -428,7 +639,7 @@ export function FloatingCanvasToolbar({
                           setObjectsOpen(false)
                         }}
                       >
-                        <User className="h-4 w-4 text-indigo-500" />
+                        <PersonManGlyph className="h-5 w-5 text-indigo-500" />
                         Persona - Hombre (0.55m x 0.45m)
                       </Button>
                       <Button
@@ -440,7 +651,7 @@ export function FloatingCanvasToolbar({
                           setObjectsOpen(false)
                         }}
                       >
-                        <User className="h-4 w-4 text-pink-500" />
+                        <PersonWomanGlyph className="h-5 w-5 text-pink-500" />
                         Persona - Mujer (0.50m x 0.40m)
                       </Button>
                     </>
@@ -457,7 +668,7 @@ export function FloatingCanvasToolbar({
                           setObjectsOpen(false)
                         }}
                       >
-                        <Box className="h-4 w-4 text-slate-600" />
+                        <DeskGlyph className="h-5 w-5 text-slate-600" />
                         Escritorio (1.5m x 0.8m)
                       </Button>
                       <Button
@@ -469,7 +680,7 @@ export function FloatingCanvasToolbar({
                           setObjectsOpen(false)
                         }}
                       >
-                        <Armchair className="h-4 w-4 text-slate-700" />
+                        <OfficeChairGlyph className="h-5 w-5 text-slate-700" />
                         Silla de Oficina (0.6m x 0.6m)
                       </Button>
                       <Button
@@ -481,7 +692,7 @@ export function FloatingCanvasToolbar({
                           setObjectsOpen(false)
                         }}
                       >
-                        <Laptop className="h-4 w-4 text-cyan-600" />
+                        <ComputerGlyph className="h-5 w-5 text-cyan-600" />
                         Computadora (0.5m x 0.4m)
                       </Button>
                     </>
@@ -498,7 +709,7 @@ export function FloatingCanvasToolbar({
                           setObjectsOpen(false)
                         }}
                       >
-                        <Trees className="h-4 w-4 text-emerald-600" />
+                        <TreeGlyph className="h-5 w-5 text-emerald-600" />
                         Árbol de Sombra (3.0m x 3.0m)
                       </Button>
                       <Button
@@ -510,7 +721,7 @@ export function FloatingCanvasToolbar({
                           setObjectsOpen(false)
                         }}
                       >
-                        <Trees className="h-4 w-4 text-green-500" />
+                        <PlantGlyph className="h-5 w-5 text-green-500" />
                         Planta / Arbusto (1.0m x 1.0m)
                       </Button>
                     </>
